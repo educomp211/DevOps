@@ -1,0 +1,365 @@
+scp file.txt remote_username@10.10.0.2:/remote/directory
+cut -d "<delimeter>" -f 1 state.txt
+awk '{print $1,$4}' employee.txt ($ means column)
+Replace strings by sed  command in a file -- sed 's/unix/linux/' geekfile.txt
+Replacing string on a specific line number by sed  command in a file -- sed '3 s/unix/linux/' geekfile.txt
+To Delete a particular line using sed command -- sed '5d' filename.txt
+To grep particular nwords from a file -- grep -ir <filename>, grep -e <filename>
+
+Where is the network configuration file in Linux?
+The configuration files for network interfaces are located in the /etc/sysconfig/network-scripts/
+
+crontab -l, crontab -e
+cron jobs schedule and syntax of cron
+-- 1 2 3 4 5 /path/to/command arg1 arg2
+Where,
+1: Minute (0-59)
+2: Hours (0-23)
+3: Day (0-31)
+4: Month (0-12 [12 == December])
+5: Day of the week(0-7 [7 or 0 == sunday])
+/path/to/command – Script or command name to schedule, 
+
+
+What are inodes ? 
+how to check open files in linux -- lsof
+soft and hard links, umask and acl , chown and chmod,
+difference btw du and df commands
+anacron command for daily, monthly, hourly schedule jobs
+free -m , free -h, free -k commands
+diff btw tail and less
+journalctl -u, journalctl -u <service-name> --since <date><time><periods>
+dmesg | grep <service-name> | tail -f
+diff btw tail and less
+lsof
+netstat
+scp
+ssh -A <node-name>, 
+How to create ssh key ? -- ssh-keygen, 
+How to make a tunnel ? -- ssh -<dc-name> -L <localhostport-name>:<nodename><nodeport>
+how to check cpu and memory for a given PID and it's process ? -- ps -p <pid of a process> -o %cpu,%mem
+how to check user process ? -- ps -aux <pid of a process>
+How to check the installed packages ? -- rpm -qa | grep <package-name>
+How to remove install packages ? -- yum remove <package-name> or apt-get purge <package-name>
+find command
+How to find and delete a file with confirmation? -- find ./GFG -name sample.txt -exec rm -i {} \;
+Search for empty files and directories ? -- find ./GFG -empty
+$ find ./GFG -perm 664
+# find /path_to_directory -name 'filenamepattern*' -mtime +7 -type f -exec ls {}\;
+ls -ltrh -- to show the files in sizes
+to show the hidden files -- ls -la
+How to check the package version name ? -- uname -a
+lvm commands
+iostat -- to see input/output in linux
+filesystem - ext2, ext3, ext4, ntfs
+mounting your directories permanent -- /etc/fstab
+tar and unzip commands
+getting system info -- vmstat, cpuinfo, meminfo, lscpu - to check number of cores
+ creates a simple archive of a folder using tar command -- tar -cf ./my-archive.tar ./my-folder/
+  Extract a folder from an archive -- tar -xf archive-name.tar
+  iptables -L -- to check the tables name
+  Display routing table --  ip route show or  route
+  List network interfaces --  ip link show
+  List addresses for interfaces -- ip addr show 
+  
+  - what is swap memory in linux ?
+  Swap space in Linux is used when the amount of physical memory (RAM) is full  /proc/swaps
+  command to check: swapon -s
+  
+  - resize2fs command -  it is used to resize the partition /dev/sda
+  - growpart command - growpart is a Linux command-line tool used to extend a partition in a partition table to fill available space. /dev/sda
+  - xfs_growfs command  - used to increase the size of a mounted XFS file system /dev/sda
+  
+What is inode in Linux?
+    Inodes store information about files and directories (folders), such as file ownership, access mode (read, write, execute permissions), and file type
+
+AlmostOutOfinodes  troubleshooting steps ?
+   commands to check - ls -li /path
+   commnads to check - df -i /mountpoint
+   Switch node into maintenance mode, stop the main service (most probably tomcat.service)
+      systemctl stop tomcat.service
+   To see the largest directory in inode usage
+       find <mountpoint> -xdev -printf '%h\n' | sort | uniq -c | sort -k 1 -n
+   Create a screen session
+       screen -S inodes_recovery
+   in order to remove empty directories run the below command:
+        find <mountpoint>/<directory> -type d -empty -mtime +365 -exec rmdir {} \; 2> /home/<user>/purged_dirs
+   Check the state of inodes:
+        df -ih <mountpoint>
+   Restore services and put node back to the rotation
+        systemctl start tomcat.service
+
+What happens if you run out of inodes?
+    The moment a file system runs out of inodes, all new files and folders will be rejected, ie. data loss    
+
+Sar command - It can be used to monitor Linux system’s resources like CPU usage, Memory utilization, I/O devices consumption, Network monitoring, Disk usage, proces.
+  to start SAR Service - systemctl start sysstat.service
+  to report CPU details total 5 times with the interval of 2 seconds. - sar -u
+  To report about the amount of memory used, amount of memory free, available cache, available buffers total 3 times with the interval of 1 second - sar -r
+  To report about file systems mounted on the device total 5 times with the interval of 2 seconds.  - sar -F
+  To report number of processes and load average - sar -q 
+  to report cpu usage for given core - sar -P
+  To report details about the process, kernel thread, i-node, and the file tables - sar -v
+  
+How to check why server restarted  ?
+  Steps for troubleshooting :
+     last -x | grep shutdown | less
+     who -b
+     uptime
+     check logs in /var/log/messages, /var/log/syslog
+     journalctl --list-boots, journalctl -b -n
+     journalctl -b --since "today"
+     
+difference between scp and rsync ?
+   scp - scp is faster if you need to transfer a single set of unique files over an encrypted link
+         Secure Copy (SCP) uses SSH to copy only the files or directories that you select
+         
+         Copy a Local File to a Remote System:
+            scp file.txt remote_username@10.10.0.2:/remote/directory
+            
+         Copy a Remote File to a Local System:
+            scp remote_username@10.10.0.2:/remote/file.txt /local/directory
+            
+            
+   rsync - RSYNC is faster If you're syncing a directory that may have redundant files, RSYNC through an SSH tunnel is your target if you need more security.
+           Rsync copies all files and directories and then it copies only the files and directories that you have changed
+           a -  archive mode
+           r - copy recurssively
+           z - compress files
+           h - humar readable
+           v - verbose
+     
+           Copy/Sync Files and Directory on local computer:
+              rsync -zvh backup.tar.gz /tmp/backups/
+              
+           Copy/Sync a Directory on Local Computer:   
+               rsync -avzh /root/rpmpkgs /tmp/backups/
+               
+           Copy/Sync Files and Directory to or From a Server:
+               rsync -avzh /root/rpmpkgs root@192.168.0.141:/root/
+               
+            Rsync Over SSH:
+               Copy a File from a Remote Server to a Local Server with SSH:
+                  rsync -avzhe ssh root@192.168.0.141:/root/anaconda-ks.cfg /tmp
+                  
+                Copy a File from a Local Server to a Remote Server with SSH:
+                   rsync -avzhe ssh backup.tar.gz root@192.168.0.141:/backups/
+                   
+                Show Progress While Transferring Data with rsync:
+                   rsync -avzhe ssh --progress /root/rpmpkgs root@192.168.0.141:/root/rpmpkgs
+                   
+                 Do a Dry Run with rsync:
+                    rsync --dry-ru
+                    
+                 Automatically Delete source Files
+                    rsync --remove-source-files
+                    
+open blue ocean ?
+  modelling and presenting the process of software delivery by surfacing information in a visualize form
+  
+How do I enable blue ocean in Jenkins? 
+  Login to your Jenkins server.
+  Click Manage Jenkins in the sidebar then Manage Plugins.
+  Choose the Available tab and use the search bar to find Blue Ocean.
+  Click the checkbox in the Install column.
+  Click either Install without restart or Download now and install after restart
+                  
+                  Set the Max Size of Files to be Transferred:
+                     rsync -avzhe ssh --max-size='200k
+                     
+                  Use of –delete Option:
+                     rsync -avz --delete
+                    
+ 
+ Suppose, if puppet certificate is expired on a node, how to renew or create new certificate ?
+   steps:
+       1st step, run commands on slave node first to check the puppet cert directory, delete SSL certificate:
+           puppet config print ssldir --section agent
+           find /etc/puppetlabs/puppet/ssl -name <nodename> -delete
+           rm -rf /etc/puppetlabs/puppet/ssl/*
+               
+       2nd step , then, run commands on puppet master:
+           puppet cert clean <nodename>
+           
+       3rd step, again run command on slave node so it will generate new certificate :  
+            puppet agent -t
+            
+       4th step, then again run command on puppet master so it will sign the certificate,
+            puppet cert sign <nodename>
+            
+            
+How to remove certificates manually from a puppet master for a give slave node:
+       Steps:
+           Login to the puppet master node
+              then run commands like:
+                 puppet node deactivate <nodename>
+                 puppet cert clean <nodename>
+                 
+How to run puppet in dry run mode ?
+   puppet agent -t --noop -  it will refresh the state of puppet do not apply the changes
+   
+How to apply changes in puppet slave nodes ?
+   puppet agent -t or puppet agent -t --skip_tags ""
+   
+How to check run puppet in debug mode?
+   puppet agent --test --debug
+   
+   
+AlmostOutOfSpace / OutOfSpace disk usage troubleshooting steps ?
+  ncdu . command
+  
+  Find logs and gzip them
+     gzip -v </path of tomcat logs/log file name>.*
+  Check current and list all installed kernels in /boot/efi
+     uname -a && rpm -q kernel
+  Choose old kernels to remove.
+     yum remove <kernelname>
+     
+AlmostOutOfinodes  troubleshooting steps ?
+   commands to check - ls -li /path
+   commnads to check - df -i /mountpoint
+   Switch node into maintenance mode, stop the main service (most probably tomcat.service)
+      systemctl stop tomcat.service
+   To see the largest directory in inode usage
+       find <mountpoint> -xdev -printf '%h\n' | sort | uniq -c | sort -k 1 -n
+   Create a screen session
+       screen -S inodes_recovery
+   in order to remove empty directories run the below command:
+        find <mountpoint>/<directory> -type d -empty -mtime +365 -exec rmdir {} \; 2> /home/<user>/purged_dirs
+   Check the state of inodes:
+        df -ih <mountpoint>
+   Restore services and put node back to the rotation
+        systemctl start tomcat.service
+        
+ 
+ /var/lib/puppet/state/agent_catalog_run.lock age is 4655778 seconds and is greater than critical:3600 ?
+    Check if puppet agent is stuck by checking puppet process:
+
+        ps -ef | grep puppet
+        kill -9 <PID>
+        puppet agent -t
+        
+How to check which specific process is utilizing how much of memory, cpu and from which command it is running ?
+   ps -p <PID> -o %mem,%cpu,cmd
+   
+Rolling Deployment ?
+   A rolling deployment is a deployment strategy that updates running instances of an application with the new release. All nodes in a target environment are incrementally updated with the service 
+   
+Blue-Green Deployment ?
+   Blue-green deployment is a deployment strategy that utilizes two identical environments, a “blue” (aka staging) and a “green” (aka production) environment with different versions of an application or service
+   User traffic is shifted from the green environment to the blue environment once new changes have been testing and accepted within the blue environment
+   Rollback is also straightforward, because you can simply flip traffic back to the old environment in case of any issues
+   
+Canary Deployment ?
+   A canary deployment is a deployment strategy that releases an application or service incrementally to a subset of users. All infrastructure in a target environment is updated in small phases (e.g: 2%, 25%, 75%, 100%).
+   it does not require two production environments. And finally, it is fast and safe to trigger a rollback to a previous version of an application.
+       
+   
+1 How to check kernel version ?
+  uname -r ; uname -a
+  
+2 How to check directory size ?
+  du
+  
+4 What are Monitoring commands in linux to check performance ?
+  top, vmstat, htop, lsof, tcpdump, netstat, iostat
+  
+5 What are runlevels in linux ?
+  0 – System halt i.e the system can be safely powered off with no activity.
+  1 – Single user mode.
+  2 – Multiple user mode with no NFS(network file system).
+  3 – Multiple user mode under the command line interface and not under the graphical user interface.
+  4 – User-definable.
+  5 – Multiple user mode under GUI (graphical user interface) and this is the standard runlevel for most of the LINUX based systems.
+  6 – Reboot which is used to restart the system.
+
+6 What is the default runlevel in linux and where to find its file and how to switch and how to check ?
+  runlevel 3 or runlevel 5 , in /etc/inittab file , Use the init command to change rune levels: # init 1. , who -r
+ 
+7 How to make soft link ?
+  ln -s {source-filename} {symbolic-filename}
+  
+8 Mysql port number ?
+  3306
+
+9 How to restart apache / tomcat ?
+  service apache2 restart|stop|start
+  
+10 UDP connection examples ?
+  DNS, VOIP, TFTP
+  
+11 Error codes ?
+  403 - The HTTP 403 Forbidden response status code indicates that the server understands the request but refuses to authorize it.
+  404 - The HTTP 404 Not Found response status code indicates that the server cannot find the requested resource.
+  416 - a server cannot serve the requested ranges.
+  500 - Internal Server Error server
+  502 - Bad Gateway server error
+  503 - Service Unavailable     
+
+How to check listening ports in linux ?
+    lsof -i -P -n | grep LISTEN ; netstat -tulpn | grep LISTEN ; ss -tulw
+    
+How to check if apache or tomcat is running or not ?
+    http://server-ip:80 ; systemctl ; ps -elf | grep apache ; 
+    
+How to delete particular process IDs in Linux ?
+    kill -9 <PID>
+    
+Types of kill ?
+    SIGHUP (1) - Hangup detected on controlling terminal or death of controlling process. Use SIGHUP to reload configuration files and open/close log files.
+    SIGKILL (9) – Kill signal. Use SIGKILL as a last resort to kill process. It will not save data or cleaning kill the process.
+    SIGTERM (15) – Termination signal. It is the default and safest way to kill process
+    
+How to check the running process in linux ?
+   ps -elf
+   
+Nagios works on which port number by default?
+    80
+    
+ Shell script parameters ?
+    https://www.javatpoint.com/shell-script-parameters
+    
+ how-to-redirect-standard-error-in-bash ?
+      command or script 2> <filename> for redirection of error in a file
+      command or script 2>$1 <filename> for redirection of standard error and output in a file
+      
+75 Background and foreground jobs ?
+    https://www.thegeekstuff.com/2010/05/unix-background-job/
+    
+76 what is screen command ?
+    Screen command is used for long running scripts in separate terminal and we can create multiple screens.
+    
+77 how to list how many screens sessions are currenlty running in our terminal ?
+    screen -ls
+ 
+78 how to create a screen with a name ?
+    screen -S <name>
+    
+79 how to re enter to the screen session is already created before ?
+    screen -R <name>
+
+80 how to come out of the screen ?
+    ctrl + a + D
+    
+What is a proxy server or forward proxy ?
+A proxy server is a server that routes traffic between client and system, usually external to the network, convert and mask client IP addresses, enforce security protocols, and block unknown traffic
+
+shiva What is a reverse proxy?
+a reverse proxy is used to protect servers. A reverse proxy is a server that accepts a request from a client, forwards the request to another one of many other servers, and returns the results from the server that actually processed the request to the client as if the proxy server had processed the request itself. The client only communicates directly with the reverse proxy server and it does not know that some other server actually processed its request.    
+
+
+INIT levels ?
+The standard LINUX kernel supports these seven different runlevels :
+
+0 – System halt i.e the system can be safely powered off with no activity.
+1 – Single user mode.
+2 – Multiple user mode with no NFS(network file system).
+3 – Multiple user mode under the command line interface and not under the graphical user interface.
+4 – User-definable.
+5 – Multiple user mode under GUI (graphical user interface) and this is the standard runlevel for most of the LINUX based systems.
+6 – Reboot which is used to restart the system.
+
+            
+Refererence - https://www.geeksforgeeks.org/
+Reference - tecmint
+
