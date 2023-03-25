@@ -1,0 +1,84 @@
+- What is Apache Tomcat?
+Apache Tomcat is basically a Web Server where client access the applications. Apache tomcat is used for hosting applications.
+
+- What is the default port for Apache Tomcat?
+8080
+
+- What is the name of inbuilt Web Container in Tomcat?
+catalina - Catalina is used for loading all the requests related to HTTP and can instantiate the objects of GET () and POST () methods.
+
+- What are the types of batch file with the help of which we can Start and Stop Apache Tomcat Server?
+Startup.bat
+Shutdown.bat
+service.bat
+version.bat
+catalina.bat
+bootstrap.jar
+
+- Do Apache Tomcat generate Log files? and how many files are there ?
+catalina.out - for output logs
+catalina.err - for error logs
+heartbeat.log - logs for health status of nodes
+access.log - for the access conf for users
+gc.log - logs for garbage collectors like heap dumps
+stat.log
+throtlling .log
+
+- How to start | stop | restart | status tomcat service ?
+systemctl status tomcat
+
+- what is the java process use in tomcat ?
+jsvc.exec
+
+- where tomcat.service file is located ?
+/etc/systemd/system/tomcat.service
+
+- from which command tomcat start its service ?
+path/tomcat-ctl start
+
+- tomcat PID file ?
+/var/run/tomcat/tomcat.pid
+
+- HOw to check the tomcat version ?
+./version.sh in bin diretory
+
+- What are JVM parameters to set heap memory ?
+Xms6144m -Xmx6144m -XX:NewRatio
+
+- where to define JVM parameters ?
+JAVA_OPTS="-Xms1024m -Xmx1024m -XX:Newratio
+
+- What are the errors come in tomcat ?
+XX:+HeapDumpOnOutOfMemoryError
+Out Of Memory Errors
+java errors
+
+- How ot change the default port in tomcat ?
+go to tomcat/conf/server.xml
+Edit server.xml
+Search "Connector port"
+Replace "8080" by your port number
+Restart tomcat server.
+
+- How to automatically start the tomcat service when system crash|stutdown|reboot|boot ?
+To make Tomcat start automatically when the system boot is in levels 2,3,4, or 5, use the "chkconfig" tool from the command line
+chkconfig --level 2345 [name of the tomcat init script] on
+
+- If suppose you login and you come to know that tomcat service is not working, then, what you do to solve ?
+1. Ensure the port that you specified for Tomcat is not being used by any other application - netstat –a | grep <portname>
+2. If an application is listening on that port, either stop that application or change the port on which the Apache Tomcat service will run.
+3. check the tomcat service status - systemctl status tomcat
+4. check from user is running the tomcat service in its conf file
+5. check the recent changes in repositories related to tomcat configurations
+6. check the code error like context initialization failed 404 error
+7. check the org.springframework.beans.factory.BeanCreationException: Error creating bean
+8. check the scripts errors in scripts like startup.bat, catalina.bat, startup.sh and catalina.sh
+9. Check the OOM errors
+10. check the jave openjdk version - 1.8.0
+11. check the exceptions like timeoutexception and java.io.IOException, java.net.ConnectException: Connection refused
+12 check if the puppet service is working properly
+13 check the last puppet runs file in /var/lib/puppet/state/last_puppet_run.yml and last_report_summary.yml
+14 ConnectionRefusedError and ava.net.SocketTimeoutException
+
+- How to check which specific process is utilizing how much of memory, cpu and from which command it is running ?
+   ps -p <PID> -o %mem,%cpu,cmd
