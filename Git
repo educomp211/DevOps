@@ -1,0 +1,91 @@
+Git config setup
+
+git config --global user.name naresh
+git config --global user.email naresh@gmail.com
+git config --global help.autocorrect 1
+git config --global core.editor vim
+git config --list
+
+---------------------------------------------------------------------------------------------------------
+git config --list (to see the configurations)
+git init (to initialize the working directory to use git commands)
+git status (to check the file is track or untrack)
+git add (to add the files)
+git rm <filename> (to remove the files)
+git --restore staged <filename> (to restore the files back to the original state)
+git commit -m "any message" (to commit the changes made by you)
+git tag --a v1.3 <commit id> -m "any message" (Tagging is used to capture a point in history that is used for a marked version release)
+git show (to see the commit changes made by you by commit ID)
+git log (to see the logs)
+git diff (to see the modifications (+add) (-delete))
+git log --oneline (to see the logs in one line)
+git remote -v (see the remote's URLs in listings)
+git remote add origin https://github.com/educomp24/DevOps-Repo/new/master/Git (to connect to your repo url)
+git push -u origin master <source or feature branch name> (to push the code to remote or cloud repo)
+git clone (to clone the repo from cloud to local on yuor computer)
+git stash (temporarily shelve changes made in the working directory)
+git pull (to pull the repo changes from cloud to local computer)
+git fetch (It fetches branches and tags from one or more repositories)
+git --version (to check the version of git)
+git reset --soft (The easiest way to undo the last Git commit is to execute the “git reset” command with the “–soft” option that will preserve changes done to your files)
+git reset --hard (don't change the branch but get rid of all local changes)
+git branch <new branch name> (to create the new branch)
+git checkout -b <<new branch name> (to create the new branch)
+git branch -d <branch name> (to delete the branch)
+git merge (to merge the branch into other branch
+
+---------------------------------------------------------------------------------------------------------
+
+What is git tagging ?
+Tagging is generally used to capture a point in history that is used for a marked version release (i.e. v1. 0.1)
+
+What is rebasing ?
+Rebasing is the process of moving or combining a sequence of commits to a new base commit
+
+What is cherry pick in git ?
+Cherry picking is the act of picking a commit from a branch and applying it to another. Git cherry-pick can be useful for undoing changes.
+
+What is a conflict?
+    When two separate branches have changes to the same line in a file
+    A file is deleted in one branch but has been modified in the other.
+    Identify the files that have conflicts.
+  2. Discuss with members who have worked on the file and ensure that the required changes are done in the file.
+  3. Add these files to the staged section by using the git add command.
+  4. Commit these changes using the git commit command.
+  5. Finally, push the changes to the branch using the git.
+  
+Define “Index” ?
+    Staging Area in git.
+
+What does git stash apply command do ?
+    git stash apply command is used for bringing the works back to the working directory from the stack where the changes were stashed using git stash command.
+
+Can you tell something about git reflog?
+    This command tracks every single change made in the repository references (that can be branches or tags) and also maintains the branches/tags log history that was either created locally or checked out.
+
+How to revert a bad commit which is already pushed?
+    Approach 1: Fix the bad changes of the files and create a new commit and push to the remote repository. This step is the simplest and most recommended approach to fix bad changes. You can use the command: git commit -m "<message>"
+    Approach 2: New commit can be created that reverts changes done in the bad commit. It can be done using git revert <name of bad commit>
+    
+How do you find a commit which broke something after a merge operation?
+   git bisect start         # initiates bisecting session
+  git bisect bad           # marks current revision as bad
+  git bisect good revision # marks last known commit as good revision
+  
+Can you tell the differences between git revert and git reset?
+    git revert
+      This command is used for creating a new commit that undoes the changes of the previous commit.
+      Using this command adds a new history to the project without modifying the existing history
+    git reset
+      This command is used for undoing the local changes done in the git repository
+      This command operates on the commit history, git index, and the working directory.
+
+What command removes untracked files from the working directory?
+    GIT CLEAN
+    
+ - What command is used to download all files and objects from a defined repository?
+    git fetch
+    
+- For the local repository to reflect changes made in a remote repository what command has to be run?
+    git pull
+    
