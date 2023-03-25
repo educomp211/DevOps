@@ -1,0 +1,16 @@
+1) Git
+2) Jenkins
+3) Ansible
+5) Puppet
+6) Docker 
+9) SSH
+11) Tomcat or nginx or apache
+13) How DNS , DHCP and Backend works while typing in web browser ?
+20) diff btw Deployment and delivery 
+21) diff btw docker and vm
+22) what are Microservices (Kubernetes) ?
+23) diff btw CI & CD
+25) Iac (terraform) 
+Linux
+Kubernetes basics commands and architecture
+Monitoring tools basic components and architecture - Newrelic(APM), grafana(visual dashboards), KIbana(logs), PROMETHEUS
