@@ -1,0 +1,87 @@
+- SSH is configured on what Port Number, by default? How to change the port of SSH?
+    SSH is configured on port 22, by default. We can change or set custom port number for SSH in configuration file
+    /etc/ssh/sshd_config
+  
+- As a security implementation, you need to disable root Login on SSH Server, in Linux. What would you suggest?
+    Change the parameter ‘PermitRootLogin‘ to ‘no‘ and restart the SSH service
+  
+- Is it possible to login to SSH server without password? How ?
+    Yes! It is possible to login to a remote SSH server without entering password. We need to use ssh-keygen technology to create public and private keys. Yes, we can do by setting up Key based authentication (password less authentication setup)
+    Create ssh-keygen
+    Copy public keys to remote host ssh-copy-id -i /home/USER/.ssh/id_rsa.pub REMOTE-SERVER
+    Run the ssh-agent and load your private key into it - !/bin/sh eval `ssh-agent` ssh-add ~/.ssh/id_dsa bash ssh-agent -k exec clear
+    restart the ssh service
+  
+- How will you allows users and groups to have access to SSH Sever?
+    Yes! It is possible to allow users and groups to have access to SSH server.
+    AllowUsers Tecmint Tecmint1 Tecmint2
+    AllowGroups group_1 group_2 group_3
+  
+- Is it possible to trace unauthorized login attempts to SSH Server with date of Intrusion along with their corresponding IP ?
+    cat /var/log/secure | grep “Failed password for”
+  
+- You are unable to do ssh to a node, what could be the problem?
+    check the ssh log in /var/log/secure, /var/log/sshd, /var/log/messages, /var/log/auth
+      Most possible scenarios :
+        Host is not allowed to do ssh to the server
+        A direct root login may not be allowed
+        AllowUsers and AllowGroup is not defined for the target node sshd config and hence the login fails
+        Many times a password less authentication fails due to incorrect permision of the necessary directory and files like .ssh, authorized_keys etc so make sure the permission of these files and directories are not world readable or writable.
+    
+-  There are many times a root user just leaves it session open which is kind of breach of security as any session for any user (specially root) if left idle for certain amount of time must be closed so that no one can use it for some wrong purpose. How can this be achieved?
+    We can introduce TMOUT variable in the profile of the user 
+    
+-  I created a password less authentication between two linux box but still every time I try to do ssh, it still prompts me for password, what wrong could I have done? What all I should check?
+    Make sure the public key you generated is same as what is copied to the target node’s authorised key file
+    The permission of .ssh directory, the generated keys and authorized keys must not be world readable, writable or executable
+    Analyse the /var/log/sshd, /var/log/secure, /var/log/messages 
+    
+- After upgrading kernel the machine fails to boot, what will you do?
+    check grub2-mkconfig -o /boot/grub2/grub.cfg
+    
+    
+- What is the difference between SSH and Telnet?
+    ssh port 22 - communication between client & server is encrypted, SSH uses a public key for authentication.
+    telnet port 23 - not encrypted (plain text).Telnet does not use any authentication.
+    
+- command sshpass ?    
+    sshpass is a command which allows us to supply password in automation scripts.
+    shpass -p PaSsWoRd ssh root@remote.host
+    
+- What is SSH port forwarding ?
+    SSH Port Forwarding, sometimes called SSH Tunneling, which allows you to establish a secure SSH session.
+    
+- How to enable debugging in ssh command ?
+    ssh root@www.linuxtechi.com -v. To increase the debugging level just increase the number of v’s.
+    
+- How to enable passwordless ssh authentication in Linux ?
+    To Implement passwordless or Keys based authentication we have to generate Public and Private keys , Copy the Pubic keys to remote Linux servers either manually or by ssh-copy-id command.ssh-copy-id command will automatically copy the contents of id_rsa.pub file to ‘~/.ssh/authorized_keys’ file of remote linux server
+    
+- How to Enable only Key based authentication..?
+    #RSAAuthentication yes
+    #PubkeyAuthentication yes
+    
+- Common SSH error while accessing to servers ? below are the steps to check and troubleshoot
+    Connection Timeout
+        Verify that the host IP address is correct
+        Verify the firewall rules
+        iptables -nL
+        Verify the port number allowed for ssh
+    Connection Refused
+        Verify that the service is running properly
+    Access Denied
+        Verify that the username or password is correct
+        Verify password provided is not matching the password stored in /etc/shadow for the user.
+        We can check if the user is not expired or locked or deleted
+        We can also reset the account of the user
+        Analyse the /var/log/sshd, /var/log/secure, /var/log/messages
+        Verify that the users are allowed to make ssh or not in ssh conf
+        Verify user is not in the deny group in ssh conf
+    Permission denied
+        Navigate to /etc/ssh/sshd_config
+        Make sure PasswordAuthentication and  PubkeyAuthentication ends with yes
+        Restart sshd_config
+    Hostname Resolution errors
+        ssh: Could not resolve hostname example.com: Name or service not known - for this error we  can check DNS resolution issues
+        
+ 
