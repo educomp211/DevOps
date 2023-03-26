@@ -33,10 +33,12 @@ What are inodes ?
 how to check open files in linux -- lsof
 soft and hard links, umask and acl , chown and chmod,
 difference btw du and df commands
-anacron command for daily, monthly, hourly schedule jobs
 free -m , free -h, free -k commands
 diff btw tail and less
 journalctl -u, journalctl -u <service-name> --since <date><time><periods>
+journalctl -u <service-name> --since "1 hour ago"
+journalctl -u <service-name> --since "1 day ago"
+journalctl -u <service-name> --since "2015-06-26 23:15:00" --until "2015-06-26 23:20:00"
 dmesg | grep <service-name> | tail -f
 diff btw tail and less
 lsof
