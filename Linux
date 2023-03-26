@@ -369,6 +369,10 @@ The standard LINUX kernel supports these seven different runlevels :
 5 – Multiple user mode under GUI (graphical user interface) and this is the standard runlevel for most of the LINUX based systems.
 6 – Reboot which is used to restart the system.
 
+
+Boot process of linux ?
+https://www.thegeekstuff.com/2011/02/linux-boot-process/
+
             
 Refererence - https://www.geeksforgeeks.org/
 Reference - tecmint
