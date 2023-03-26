@@ -20,6 +20,14 @@ Where,
 5: Day of the week(0-7 [7 or 0 == sunday])
 /path/to/command – Script or command name to schedule, 
 
+firewall-cmd --get-zones -> to list all zones
+cd /usr/lib/firewalld/services/ > directory of firewall
+irewall-cmd --get-services
+
+
+fdisk -l > to check the partitions
+LVM commands > https://web.mit.edu/rhel-doc/5/RHEL-5-manual/Deployment_Guide-en-US/s1-disk-storage-lvm.html
+
 
 What are inodes ? 
 how to check open files in linux -- lsof
